@@ -1,5 +1,6 @@
 package com.ibicd.company.web;
 
+import com.hrm.common.controller.BaseController;
 import com.hrm.common.entity.Result;
 import com.hrm.common.entity.ResultCode;
 import com.ibicd.company.service.CompanyService;
@@ -24,7 +25,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/company")
-public class DepartmentController {
+public class DepartmentController extends BaseController {
 
 
     @RequestMapping(value = "/department", method = RequestMethod.POST)
@@ -37,8 +38,7 @@ public class DepartmentController {
 
     @RequestMapping(value = "/department", method = RequestMethod.GET)
     public Result findAll() {
-        String companyId = "1";
-        List<Department> all = departmentService.findAll(companyId);
+        List<Department> all = departmentService.findAll(parseCompanyId());
 
         Company company = companyService.findById(companyId);
         DeptListResult deptListResult = new DeptListResult(company, all);

@@ -2,6 +2,7 @@ package com.ibicd.domain.company.response;
 
 import com.ibicd.domain.company.Company;
 import com.ibicd.domain.company.Department;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +16,6 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-@NoArgsConstructor
 public class DeptListResult {
 
     private String companyId;
@@ -25,6 +25,10 @@ public class DeptListResult {
     private String companyManage;
 
     private List<Department> depts;
+
+    public DeptListResult(){
+
+    }
 
     public DeptListResult(Company company,List<Department> depts){
         this.companyId  = company.getId();
