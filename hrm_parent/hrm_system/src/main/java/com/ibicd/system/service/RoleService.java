@@ -1,6 +1,9 @@
 package com.ibicd.system.service;
 
 import com.hrm.common.utils.IdWorker;
+import com.hrm.common.utils.PermissionConstants;
+import com.ibicd.domain.system.Permission;
+import com.ibicd.system.dao.PermissionDao;
 import com.ibicd.system.dao.RoleDao;
 import com.ibicd.domain.system.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,13 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @ClassName RoleService
- * @Description TODO
+ * @Description 角色服务
  * @Author Julie
  * @Date 2019/9/22 22:46
  * @Version 1.0
@@ -28,6 +34,9 @@ public class RoleService {
     private IdWorker idWorker;
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private PermissionDao permissionDao;
 
     /**
      * 添加角色
@@ -82,6 +91,32 @@ public class RoleService {
             }
         };
         return roleDao.findAll(specification, PageRequest.of(page - 1, size));
+    }
+
+    /**
+     * 分配权限
+     *
+     * @param roleId
+     * @param permIds
+     */
+    public void assignPerms(String roleId, List<String> permIds) {
+
+        //1.获取分配的角色对象
+        Role role = roleDao.findById(roleId).get();
+        //2.构造角色的权限集合
+        Set<Permission> perms = new HashSet<>();
+        for (String permId : permIds) {
+            Permission permission = permissionDao.findById(permId).get();
+            //需要根据父id和类型查询API权限列表
+            List<Permission> apiList =
+                    permissionDao.findByTypeAndPid(PermissionConstants.PY_API, permission.getId());
+            perms.addAll(apiList);//自定赋予API权限
+            perms.add(permission);//当前菜单或按钮的权限
+        }
+        //3.设置角色和权限的关系
+        role.setPermissions(perms);
+        //4.更新角色
+        roleDao.save(role);
     }
 }
 

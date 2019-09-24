@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @ClassName RoleController
  * @Description 角色控制器
@@ -66,6 +69,21 @@ public class RoleController {
         PageResult<Role> pr = new
                 PageResult(searchPage.getTotalElements(), searchPage.getContent());
         return new Result(ResultCode.SUCCESS, pr);
+    }
+
+    /**
+     * 分配权限
+     *
+     * @param map
+     * @return
+     */
+    public Result assignPermission(@RequestBody Map<String, Object> map) {
+
+        String roleId = (String) map.get("id");
+        List<String> permIds = (List<String>) map.get("permIds");
+        roleService.assignPerms(roleId, permIds);
+        return new Result(ResultCode.SUCCESS);
+
     }
 
 }

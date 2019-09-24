@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -71,4 +72,17 @@ public class UserController extends BaseController {
         return new Result(ResultCode.SUCCESS, pr);
     }
 
+    /**
+     * 给指定用户分配角色
+     *
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/user/assignRoles", method = RequestMethod.PUT)
+    public Result assignRoles(@RequestBody Map<String, Object> map) {
+        String userId = (String) map.get("id");
+        List<String> roleIds = (List<String>) map.get("roleIds");
+        userService.assignRoles(userId, roleIds);
+        return new Result(ResultCode.SUCCESS);
+    }
 }
