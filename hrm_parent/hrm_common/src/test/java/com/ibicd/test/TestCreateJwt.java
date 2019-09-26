@@ -18,7 +18,8 @@ public class TestCreateJwt {
     public static void main(String[] args) {
 
         JwtBuilder builder = Jwts.builder().setId("123").setSubject("Subject").setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "keykeykey");
+                .signWith(SignatureAlgorithm.HS256, "keykeykey")
+                .claim("companyId","123").claim("companyName","I Believe I Can Do");
         String token = builder.compact();
         System.out.println(token);
 

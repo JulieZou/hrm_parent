@@ -90,6 +90,13 @@ public class User implements Serializable {
     private Date correctionTime;
 
     /**
+     *  sassAdmin saas管理员具备所有权限
+     *  coAdmin 企业管理员具备企业所有权限
+     *  user:普通用户（需要分配角色）
+     */
+    private String level;
+
+    /**
      * 在职状态 1.在职  2.离职
      */
     private Integer inServiceStatus;

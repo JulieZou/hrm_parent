@@ -186,6 +186,10 @@ public class UserService {
         return userDao.findById(id).get();
     }
 
+    public User findByMobile(String mobile){
+        return userDao.findByMobile(mobile);
+    }
+
     /**
      * 根据id删除用户
      *

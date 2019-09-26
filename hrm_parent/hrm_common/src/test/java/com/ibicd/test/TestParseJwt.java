@@ -12,12 +12,16 @@ import io.jsonwebtoken.Jwts;
  */
 public class TestParseJwt {
     public static void main(String[] args) {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMjMiLCJzdWIiOiJTdWJqZWN0IiwiaWF0IjoxNTY5MjgzODcyfQ.W2jPIDpubwtRXztzU_gKyHWxy2UziVl95HH5oo53RI4";
-        Claims body = Jwts.parser().setSigningKey("keykeykey").parseClaimsJws(token).getBody();
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMjMiLCJzdWIiOiJTdWJqZWN0IiwiaWF0IjoxNTY5MzI5MDY0LCJjb21wYW55SWQiOiIxMjMiLCJjb21wYW55TmFtZSI6IkkgQmVsaWV2ZSBJIENhbiBEbyJ9.2FbAokKLcrBmr8e-7MmXRQ1ymk55JTVW6AKJjiyd8U0";
+        Claims claims = Jwts.parser().setSigningKey("keykeykey").parseClaimsJws(token).getBody();
 
        //不正确的key 导致报错：A signing key must be specified if the specified JWT is digitally signed.
-        System.out.println(body.getId());
-        System.out.println(body.getSubject());
-        System.out.println(body.getIssuedAt());
+        System.out.println(claims.getId());
+        System.out.println(claims.getSubject());
+        System.out.println(claims.getIssuedAt());
+
+        System.out.println(claims.get("companyId"));//123
+        System.out.println(claims.get("companyName"));//I Believe I Can Do
+
     }
 }

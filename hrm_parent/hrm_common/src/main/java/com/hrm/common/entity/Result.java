@@ -1,6 +1,10 @@
 package com.hrm.common.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @ClassName Result
  * @Description 返回结果实体类
@@ -9,9 +13,8 @@ package com.hrm.common.entity;
  * @Version 1.0
  */
 
-//@Data
-//    @NoArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Result {
 
     private boolean success;//是否成功
@@ -19,6 +22,9 @@ public class Result {
     private String message;//返回信息
     private Object data;// 返回数据
 
+    public Result() {
+
+    }
 
     public Result(ResultCode code) {
         this.success = code.success;
@@ -26,32 +32,32 @@ public class Result {
         this.message = code.message;
     }
 
-    public Result(ResultCode  resultCode,Object data){
-        this.success  = resultCode.success;
+    public Result(ResultCode resultCode, Object data) {
+        this.success = resultCode.success;
         this.code = resultCode.code;
         this.message = resultCode.message;
         this.data = data;
 
     }
 
-    public Result(Integer code,String message,boolean success){
+    public Result(Integer code, String message, boolean success) {
         this.code = code;
         this.message = message;
         this.success = success;
 
     }
 
-    public static Result SUCCESS(){
+    public static Result SUCCESS() {
 
         return new Result(ResultCode.SUCCESS);
     }
 
-    public static Result ERROR(){
+    public static Result ERROR() {
 
         return new Result(ResultCode.SERVER_ERROR);
     }
 
-    public static Result FAIL(){
+    public static Result FAIL() {
         return new Result(ResultCode.FAIL);
     }
 }

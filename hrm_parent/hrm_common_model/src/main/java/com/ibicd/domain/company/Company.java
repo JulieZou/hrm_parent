@@ -3,9 +3,9 @@ package com.ibicd.domain.company;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -24,7 +24,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Company implements Serializable {
     private static final long serialVersionUID = 594829320797158219L;
-    //ID
+
     @Id
     private String id;
     /**

@@ -18,9 +18,11 @@ public enum ResultCode {
 
     UNAUTHORISE(false,10003,"权限不足"),
 
-    SERVER_ERROR(false,99999,"抱歉，系统繁忙，请稍后重试！");
+    SERVER_ERROR(false,99999,"抱歉，系统繁忙，请稍后重试！"),
 
-//---用户操作返回码----
+//---用户操作回码----
+    MOBILE_OR_PWD_ERROR(false,20001,"用户名或密码错误!");
+
 //---企业操作返回码----
 //---权限操作返回码----
 //---其他操作返回码----
