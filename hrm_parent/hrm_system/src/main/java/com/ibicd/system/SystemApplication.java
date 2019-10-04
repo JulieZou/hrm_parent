@@ -34,11 +34,6 @@ public class SystemApplication {
         return new JwtUtils();
     }
 
-//    @Bean
-//    public JwtInterceptor jwtInterceptor() {
-//        return new JwtInterceptor();
-//    }
-
     //解决no session
     @Bean
     public OpenEntityManagerInViewFilter openEntityManagerInViewFilter() {
