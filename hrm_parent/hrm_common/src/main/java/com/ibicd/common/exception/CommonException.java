@@ -1,6 +1,6 @@
-package com.hrm.common.exception;
+package com.ibicd.common.exception;
 
-import com.hrm.common.entity.ResultCode;
+import com.ibicd.common.entity.ResultCode;
 import lombok.Getter;
 
 /**

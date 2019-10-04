@@ -1,6 +1,6 @@
 package com.ibicd.system;
 
-import com.hrm.common.interceptor.JwtInterceptor;
+import com.ibicd.common.interceptor.JwtInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * @Version 1.0
  */
 @Configuration
+//@Import(JwtInterceptor.class)
 public class SystemConfig extends WebMvcConfigurationSupport {
 
     @Autowired
@@ -26,4 +27,6 @@ public class SystemConfig extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/login"); //不拦截的路径
 
     }
+
+
 }

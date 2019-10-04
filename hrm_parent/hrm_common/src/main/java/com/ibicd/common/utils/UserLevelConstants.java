@@ -1,4 +1,4 @@
-package com.hrm.common.utils;
+package com.ibicd.common.utils;
 
 /**
  * @ClassName UserLevel

@@ -1,6 +1,6 @@
 package com.ibicd.system.service;
 
-import com.hrm.common.utils.IdWorker;
+import com.ibicd.common.utils.IdWorker;
 import com.ibicd.domain.system.User;
 import com.ibicd.system.dao.RoleDao;
 import com.ibicd.system.dao.UserDao;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

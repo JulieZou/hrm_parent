@@ -1,7 +1,7 @@
 package com.ibicd.company.service;
 
-import com.hrm.common.service.BaseService;
-import com.hrm.common.utils.IdWorker;
+import com.ibicd.common.service.BaseService;
+import com.ibicd.common.utils.IdWorker;
 import com.ibicd.company.dao.CompanyDao;
 import com.ibicd.domain.company.Company;
 import org.springframework.beans.factory.annotation.Autowired;

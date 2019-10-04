@@ -1,12 +1,14 @@
-package com.hrm.common.interceptor;
+package com.ibicd.common.interceptor;
 
-import com.hrm.common.entity.ResultCode;
-import com.hrm.common.exception.CommonException;
-import com.hrm.common.utils.JwtUtils;
+import com.ibicd.common.entity.ResultCode;
+import com.ibicd.common.exception.CommonException;
+import com.ibicd.common.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -54,8 +56,16 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
             String token = authorization.replace("Bearer ", "");
             Claims claims = jwtUtils.parseJwt(token);
             if (claims != null) {
-                request.setAttribute("user_claims", claims);
-                return true;
+                String apis = (String) claims.get("apis");//api-user-delete
+                HandlerMethod handlerMethod = (HandlerMethod) handler;
+                RequestMapping requestMapping = handlerMethod.getMethodAnnotation(RequestMapping.class);
+                String name = requestMapping.name();
+
+                if (apis.contains(name)) {
+                    request.setAttribute("user_claims", claims);
+                    return true;
+                } else
+                    throw new CommonException(ResultCode.UNAUTHORISE);
             }
         }
         throw new CommonException(ResultCode.UNAUTHENTICATED);

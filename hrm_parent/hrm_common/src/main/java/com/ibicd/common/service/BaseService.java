@@ -1,4 +1,4 @@
-package com.hrm.common.service;
+package com.ibicd.common.service;
 
 import org.springframework.data.jpa.domain.Specification;
 

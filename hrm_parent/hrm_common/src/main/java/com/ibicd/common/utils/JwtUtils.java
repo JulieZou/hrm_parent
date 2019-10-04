@@ -1,4 +1,4 @@
-package com.hrm.common.utils;
+package com.ibicd.common.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

@@ -1,7 +1,7 @@
 package com.ibicd.system.web;
 
-import com.hrm.common.entity.Result;
-import com.hrm.common.entity.ResultCode;
+import com.ibicd.common.entity.Result;
+import com.ibicd.common.entity.ResultCode;
 import com.ibicd.domain.system.Permission;
 import com.ibicd.system.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;

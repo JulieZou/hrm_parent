@@ -1,4 +1,4 @@
-package com.hrm.common.utils;
+package com.ibicd.common.utils;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;

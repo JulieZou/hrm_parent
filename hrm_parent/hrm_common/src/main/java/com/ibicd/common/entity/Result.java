@@ -1,9 +1,8 @@
-package com.hrm.common.entity;
+package com.ibicd.common.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @ClassName Result

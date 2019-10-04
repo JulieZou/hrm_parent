@@ -1,8 +1,8 @@
 package com.ibicd.system.web;
 
-import com.hrm.common.entity.PageResult;
-import com.hrm.common.entity.Result;
-import com.hrm.common.entity.ResultCode;
+import com.ibicd.common.entity.PageResult;
+import com.ibicd.common.entity.Result;
+import com.ibicd.common.entity.ResultCode;
 import com.ibicd.domain.system.Role;
 import com.ibicd.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
-package com.hrm.common.handler;
+package com.ibicd.common.handler;
 
-import com.hrm.common.entity.Result;
-import com.hrm.common.entity.ResultCode;
-import com.hrm.common.exception.CommonException;
+import com.ibicd.common.entity.Result;
+import com.ibicd.common.entity.ResultCode;
+import com.ibicd.common.exception.CommonException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

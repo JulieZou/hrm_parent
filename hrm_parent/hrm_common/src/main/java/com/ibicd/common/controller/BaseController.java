@@ -1,4 +1,4 @@
-package com.hrm.common.controller;
+package com.ibicd.common.controller;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.web.bind.annotation.ModelAttribute;

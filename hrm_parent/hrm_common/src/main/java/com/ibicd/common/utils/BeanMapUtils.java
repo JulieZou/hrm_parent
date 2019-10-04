@@ -1,4 +1,4 @@
-package com.hrm.common.utils;
+package com.ibicd.common.utils;
 
 import org.springframework.cglib.beans.BeanMap;
 

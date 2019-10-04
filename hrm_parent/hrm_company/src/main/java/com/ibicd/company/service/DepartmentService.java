@@ -1,7 +1,7 @@
 package com.ibicd.company.service;
 
-import com.hrm.common.service.BaseService;
-import com.hrm.common.utils.IdWorker;
+import com.ibicd.common.service.BaseService;
+import com.ibicd.common.utils.IdWorker;
 import com.ibicd.company.dao.DepartmentDao;
 import com.ibicd.domain.company.Department;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 /**
  * @ClassName DepartmentService

@@ -1,6 +1,6 @@
 package com.ibicd.company;
 
-import com.hrm.common.utils.IdWorker;
+import com.ibicd.common.utils.IdWorker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

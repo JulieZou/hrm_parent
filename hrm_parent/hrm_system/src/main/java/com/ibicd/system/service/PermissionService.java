@@ -1,9 +1,9 @@
 package com.ibicd.system.service;
 
-import com.hrm.common.entity.ResultCode;
-import com.hrm.common.exception.CommonException;
-import com.hrm.common.utils.BeanMapUtils;
-import com.hrm.common.utils.IdWorker;
+import com.ibicd.common.entity.ResultCode;
+import com.ibicd.common.exception.CommonException;
+import com.ibicd.common.utils.BeanMapUtils;
+import com.ibicd.common.utils.IdWorker;
 import com.ibicd.domain.system.*;
 import com.ibicd.system.dao.PermissionApiDao;
 import com.ibicd.system.dao.PermissionDao;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.hrm.common.utils.PermissionConstants;
+import com.ibicd.common.utils.PermissionConstants;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.CriteriaBuilder;

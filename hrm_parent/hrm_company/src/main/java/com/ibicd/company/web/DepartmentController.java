@@ -1,8 +1,8 @@
 package com.ibicd.company.web;
 
-import com.hrm.common.controller.BaseController;
-import com.hrm.common.entity.Result;
-import com.hrm.common.entity.ResultCode;
+import com.ibicd.common.controller.BaseController;
+import com.ibicd.common.entity.Result;
+import com.ibicd.common.entity.ResultCode;
 import com.ibicd.company.service.CompanyService;
 import com.ibicd.company.service.DepartmentService;
 import com.ibicd.domain.company.Company;

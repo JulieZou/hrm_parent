@@ -1,4 +1,4 @@
-package com.hrm.common.entity;
+package com.ibicd.common.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

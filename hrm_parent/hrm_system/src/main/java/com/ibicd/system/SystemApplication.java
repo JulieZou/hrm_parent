@@ -1,8 +1,7 @@
 package com.ibicd.system;
 
-import com.hrm.common.interceptor.JwtInterceptor;
-import com.hrm.common.utils.IdWorker;
-import com.hrm.common.utils.JwtUtils;
+import com.ibicd.common.utils.IdWorker;
+import com.ibicd.common.utils.JwtUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -16,8 +15,8 @@ import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
  * @Date 2019/9/22 12:56
  * @Version 1.0
  */
-@SpringBootApplication(scanBasePackages = "com.ibicd")
-@EntityScan(value = "com.ibicd")
+@SpringBootApplication(scanBasePackages = {"com.ibicd"})
+@EntityScan(value = {"com.ibicd"})
 public class SystemApplication {
 
     public static void main(String[] args) {
@@ -35,10 +34,10 @@ public class SystemApplication {
         return new JwtUtils();
     }
 
-    @Bean
-    public JwtInterceptor jwtInterceptor() {
-        return new JwtInterceptor();
-    }
+//    @Bean
+//    public JwtInterceptor jwtInterceptor() {
+//        return new JwtInterceptor();
+//    }
 
     //解决no session
     @Bean

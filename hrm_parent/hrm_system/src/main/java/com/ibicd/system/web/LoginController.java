@@ -1,25 +1,26 @@
 package com.ibicd.system.web;
 
-import com.hrm.common.controller.BaseController;
-import com.hrm.common.entity.Result;
-import com.hrm.common.entity.ResultCode;
-import com.hrm.common.exception.CommonException;
-import com.hrm.common.utils.JwtUtils;
-import com.hrm.common.utils.UserLevelConstants;
+import com.ibicd.common.controller.BaseController;
+import com.ibicd.common.entity.Result;
+import com.ibicd.common.entity.ResultCode;
+import com.ibicd.common.utils.JwtUtils;
+import com.ibicd.common.utils.PermissionConstants;
+import com.ibicd.common.utils.UserLevelConstants;
 import com.ibicd.domain.system.Permission;
+import com.ibicd.domain.system.Role;
 import com.ibicd.domain.system.User;
 import com.ibicd.domain.system.response.ProfileResult;
 import com.ibicd.system.service.PermissionService;
 import com.ibicd.system.service.UserService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @ClassName LoginController
@@ -49,15 +50,30 @@ public class LoginController extends BaseController {
 
         //1.根据mobilec查询用户
         User user = userService.findByMobile(mobile);
+        //登录失败
         if (user == null || !user.getPassword().equals(password))
             return new Result(ResultCode.MOBILE_OR_PWD_ERROR);
+        else {
+            //登录成功,将有权限的api放入到token中
+            StringBuilder builder = new StringBuilder();
+            Set<Role> roles = user.getRoles();
+            for (Role role : roles) {
+                Set<Permission> permissions = role.getPermissions();
+                for (Permission permission : permissions) {
+                    if (permission.getType() == PermissionConstants.PY_API)
+                        builder.append(",").append(permission.getCode());
+                }
+            }
+            //3.生成jwt信息
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("companyId", user.getCompanyId());
+            map.put("companyName", user.getUsername());
+            map.put("apis", builder.toString().substring(1));
+            String token = jwtUtils.createJwt(user.getId(), user.getUsername(), map);
+            return new Result(ResultCode.SUCCESS, token);
 
-        //3.生成jwt信息
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("companyId", user.getCompanyId());
-        map.put("companyName", user.getUsername());
-        String token = jwtUtils.createJwt(user.getId(), user.getUsername(), map);
-        return new Result(ResultCode.SUCCESS, token);
+        }
+
 
     }
 

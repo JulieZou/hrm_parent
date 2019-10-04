@@ -1,7 +1,7 @@
 package com.ibicd.system.service;
 
-import com.hrm.common.utils.IdWorker;
-import com.hrm.common.utils.PermissionConstants;
+import com.ibicd.common.utils.IdWorker;
+import com.ibicd.common.utils.PermissionConstants;
 import com.ibicd.domain.system.Permission;
 import com.ibicd.system.dao.PermissionDao;
 import com.ibicd.system.dao.RoleDao;

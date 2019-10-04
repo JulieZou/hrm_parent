@@ -1,9 +1,9 @@
 package com.ibicd.system.web;
 
-import com.hrm.common.controller.BaseController;
-import com.hrm.common.entity.PageResult;
-import com.hrm.common.entity.Result;
-import com.hrm.common.entity.ResultCode;
+import com.ibicd.common.controller.BaseController;
+import com.ibicd.common.entity.PageResult;
+import com.ibicd.common.entity.Result;
+import com.ibicd.common.entity.ResultCode;
 import com.ibicd.domain.system.User;
 import com.ibicd.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class UserController extends BaseController {
     }
 
     //更新用户
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT,name = "API-USER-UPDATE")
     public Result update(@PathVariable(name = "id") String id, @RequestBody User user)
             throws Exception {
         userService.update(user);
@@ -45,7 +45,7 @@ public class UserController extends BaseController {
     }
 
     //删除用户
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE,name = "API-USER-DELETE")
     public Result delete(@PathVariable(name = "id") String id) throws Exception {
         userService.deleteById(id);
         return Result.SUCCESS();

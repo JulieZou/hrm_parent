@@ -1,11 +1,9 @@
 package com.ibicd.company.web;
 
-import com.hrm.common.controller.BaseController;
-import com.hrm.common.entity.Result;
+import com.ibicd.common.controller.BaseController;
+import com.ibicd.common.entity.Result;
 import com.ibicd.company.service.CompanyService;
-import com.ibicd.company.service.DepartmentService;
 import com.ibicd.domain.company.Company;
-import com.ibicd.domain.company.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
