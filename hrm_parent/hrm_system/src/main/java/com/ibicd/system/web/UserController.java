@@ -6,6 +6,7 @@ import com.ibicd.common.entity.Result;
 import com.ibicd.common.entity.ResultCode;
 import com.ibicd.domain.system.User;
 import com.ibicd.system.service.UserService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,7 @@ public class UserController extends BaseController {
     }
 
     //删除用户
+    @RequiresPermissions(value="API-USER-DELETE")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE,name = "API-USER-DELETE")
     public Result delete(@PathVariable(name = "id") String id) throws Exception {
         userService.deleteById(id);

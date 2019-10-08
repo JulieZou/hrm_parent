@@ -5,6 +5,7 @@ import com.ibicd.domain.system.User;
 import com.ibicd.system.dao.RoleDao;
 import com.ibicd.system.dao.UserDao;
 import com.ibicd.domain.system.Role;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,7 +43,9 @@ public class UserService {
      */
     public void save(User user) {
         String id = idWorker.nextId() + "";
-        user.setPassword("123456");
+        String password = new Md5Hash(user.getPassword(),user.getMobile(),3).toString();
+        user.setPassword(password);
+        user.setLevel("user");
         user.setEnableState(1);
         user.setId(id);
         userDao.save(user);

@@ -13,10 +13,15 @@ import com.ibicd.domain.system.response.ProfileResult;
 import com.ibicd.system.service.PermissionService;
 import com.ibicd.system.service.UserService;
 import io.jsonwebtoken.Claims;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,29 +53,21 @@ public class LoginController extends BaseController {
         String mobile = loginMap.get("mobile");
         String password = loginMap.get("password");
 
-        //1.根据mobilec查询用户
-        User user = userService.findByMobile(mobile);
-        //登录失败
-        if (user == null || !user.getPassword().equals(password))
+        try {
+            //1.构造登录令牌
+            password = new Md5Hash(password, mobile, 3).toString();
+            UsernamePasswordToken upToken = new UsernamePasswordToken(mobile, password);
+            //2.获取subject
+            Subject subject = SecurityUtils.getSubject();
+            //3.调用login，进入realm完成认证
+            subject.login(upToken);
+            //4.获取sessionId
+            String sessionId = (String) subject.getSession().getId();
+            //5.构造返回结果
+            return new Result(ResultCode.SUCCESS, sessionId);
+
+        } catch (Exception e) {
             return new Result(ResultCode.MOBILE_OR_PWD_ERROR);
-        else {
-            //登录成功,将有权限的api放入到token中
-            StringBuilder builder = new StringBuilder();
-            Set<Role> roles = user.getRoles();
-            for (Role role : roles) {
-                Set<Permission> permissions = role.getPermissions();
-                for (Permission permission : permissions) {
-                    if (permission.getType() == PermissionConstants.PY_API)
-                        builder.append(",").append(permission.getCode());
-                }
-            }
-            //3.生成jwt信息
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("companyId", user.getCompanyId());
-            map.put("companyName", user.getUsername());
-            map.put("apis", builder.toString().substring(1));
-            String token = jwtUtils.createJwt(user.getId(), user.getUsername(), map);
-            return new Result(ResultCode.SUCCESS, token);
 
         }
 
@@ -88,26 +85,32 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
     public Result profile(HttpServletRequest request) throws Exception {
-        Claims claims = (Claims) request.getAttribute("user_claims");
-
-        String userId = claims.getId();
-        User user = userService.findById(userId);
+//        Claims claims = (Claims) request.getAttribute("user_claims");
+//
+//        String userId = claims.getId();
+//        User user = userService.findById(userId);
 
         //1.sassAdmin saas管理员具备所有权限
         //2.coAdmin 企业管理员具备企业所有权限
         //3.user:普通用户（需要分配角色）
-        ProfileResult profileResult = null;
-        if (UserLevelConstants.NORMAL_USER.equals(user.getLevel())) {
-            profileResult = new ProfileResult(user);
-        } else {
-            Map map = new HashMap();
-            if (UserLevelConstants.COMP_ADMIN.equals(user.getLevel())) {
-                map.put("enVisible", "1");
-            }
-            List<Permission> all = permissionService.findAll(map);
 
-            profileResult = new ProfileResult(user, all);
-        }
+
+//        if (UserLevelConstants.NORMAL_USER.equals(user.getLevel())) {
+//            profileResult = new ProfileResult(user);
+//        } else {
+//            Map map = new HashMap();
+//            if (UserLevelConstants.COMP_ADMIN.equals(user.getLevel())) {
+//                map.put("enVisible", "1");
+//            }
+//            List<Permission> all = permissionService.findAll(map);
+//
+//            profileResult = new ProfileResult(user, all);
+//        }
+
+        //整合shiro
+        ProfileResult profileResult = null;
+        Subject subject = SecurityUtils.getSubject();
+        profileResult = (ProfileResult) subject.getPrincipal();
 
         return new Result(ResultCode.SUCCESS, profileResult);
 

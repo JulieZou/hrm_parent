@@ -1,6 +1,10 @@
 package com.ibicd.common.controller;
 
+import com.ibicd.domain.system.response.ProfileResult;
 import io.jsonwebtoken.Claims;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,26 +25,45 @@ public class BaseController {
     protected String companyId;
     protected String companyName;
 
-    @ModelAttribute
-    public void setResAndReq(HttpServletRequest resquest, HttpServletResponse response) {
-        this.request = resquest;
-        this.response = response;
-        Object claims = resquest.getAttribute("user_claims");
-        if (claims != null) {
-            this.claims = (Claims) claims;
-            this.companyId = (String) this.claims.get("companyId");
-            this.companyName = (String) this.claims.get("companyName");
-        }
-
-    }
+// 使用jwt 方式
+// @ModelAttribute
+//    public void setResAndReq(HttpServletRequest resquest, HttpServletResponse response) {
+//        this.request = resquest;
+//        this.response = response;
+//        Object claims = resquest.getAttribute("user_claims");
+//        if (claims != null) {
+//            this.claims = (Claims) claims;
+//            this.companyId = (String) this.claims.get("companyId");
+//            this.companyName = (String) this.claims.get("companyName");
+//        }
+//
+//    }
 
     public String parseCompanyId() {
-
-        return "1";
+        this.companyId = "1";
+        return this.companyId ;
     }
 
     public String parseCompanyName() {
-        return "测试公司名称";
+        return "测试";
+    }
+
+    /**
+     * 使用shiro 获取
+     *
+     * @param resquest
+     * @param response
+     */
+    public void setResAndReq(HttpServletRequest resquest, HttpServletResponse response) {
+        this.request = resquest;
+        this.response = response;
+        Subject subject = SecurityUtils.getSubject();
+        PrincipalCollection principalCollection = subject.getPrincipals();
+        if (principalCollection != null && !principalCollection.isEmpty()) {
+            ProfileResult result = (ProfileResult) principalCollection.getPrimaryPrincipal();
+            this.companyId = result.getCompanyId();
+            this.companyName = result.getCompanyName();
+        }
     }
 
 

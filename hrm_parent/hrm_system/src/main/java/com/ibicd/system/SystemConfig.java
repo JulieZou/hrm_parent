@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * @Date 2019/9/26 22:25
  * @Version 1.0
  */
-@Configuration
+//@Configuration
 //@Import(JwtInterceptor.class)
 public class SystemConfig extends WebMvcConfigurationSupport {
 
