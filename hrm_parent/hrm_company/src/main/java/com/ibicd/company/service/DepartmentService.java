@@ -74,6 +74,18 @@ public class DepartmentService extends BaseService {
 
 
     /**
+     * 通过编码查找部门
+     *
+     * @param code
+     * @param companyId
+     * @return
+     */
+    public Department findByCode(String code, String companyId) {
+
+        return departmentDao.findByCodeAndCompanyId(code,companyId);
+    }
+
+    /**
      * 删除
      */
     public void deleteById(String id) {
@@ -86,5 +98,6 @@ public class DepartmentService extends BaseService {
 
     @Autowired
     private IdWorker idWorker;
+
 
 }

@@ -1,11 +1,14 @@
 package com.ibicd.domain.system;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ibicd.domain.poi.ExcelAttribute;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.poi.ss.usermodel.DateUtil;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +26,21 @@ import java.util.Set;
 @Setter
 public class User implements Serializable {
 
+    public User() {
+
+    }
+
+
+    public User(Object[] values) {
+        this.username = values[1].toString();
+        this.mobile = values[2].toString();
+        this.workNumber = new DecimalFormat("#").format(values[3]).toString();
+        this.formOfEmployment = ((Double) values[4]).intValue();
+        this.timeOfEntry = DateUtil.parseYYYYMMDDDate(values[5].toString());
+        this.departmentId = values[6].toString();
+
+    }
+
     /**
      * ID
      */
@@ -35,6 +53,7 @@ public class User implements Serializable {
     /**
      * 用户名称
      */
+    @ExcelAttribute(sort = 1)
     private String username;
     /**
      * 密码
@@ -90,11 +109,13 @@ public class User implements Serializable {
     private Date correctionTime;
 
     /**
-     *  sassAdmin saas管理员具备所有权限
-     *  coAdmin 企业管理员具备企业所有权限
-     *  user:普通用户（需要分配角色）
+     * sassAdmin saas管理员具备所有权限
+     * coAdmin 企业管理员具备企业所有权限
+     * user:普通用户（需要分配角色）
      */
     private String level;
+
+    private String staffPhoto;//用户头像
 
     /**
      * 在职状态 1.在职  2.离职

@@ -10,6 +10,7 @@ import com.ibicd.domain.system.Permission;
 import com.ibicd.domain.system.Role;
 import com.ibicd.domain.system.User;
 import com.ibicd.domain.system.response.ProfileResult;
+import com.ibicd.system.client.DepartmentFeignClient;
 import com.ibicd.system.service.PermissionService;
 import com.ibicd.system.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -47,6 +48,21 @@ public class LoginController extends BaseController {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
+    private DepartmentFeignClient departmentFeignClient;
+
+    /**
+     * 测试Feign调用其它微服务（拦截器设置请求头信息，携带SessionId使登录信息有效）
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/test/{id}", method = RequestMethod.GET)
+    public Result testFeign(@PathVariable("id") String id) {
+
+        return departmentFeignClient.findById(id);
+
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result login(@RequestBody Map<String, String> loginMap) {

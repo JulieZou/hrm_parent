@@ -1,21 +1,27 @@
 package com.ibicd.system.service;
 
 import com.ibicd.common.utils.IdWorker;
+import com.ibicd.domain.company.Department;
 import com.ibicd.domain.system.User;
+import com.ibicd.system.client.DepartmentFeignClient;
 import com.ibicd.system.dao.RoleDao;
 import com.ibicd.system.dao.UserDao;
 import com.ibicd.domain.system.Role;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -30,10 +36,15 @@ public class UserService {
 
     @Autowired
     private IdWorker idWorker;
+
     @Autowired
     private UserDao userDao;
+
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private DepartmentFeignClient departmentFeignClient;
 
 
     /**
@@ -43,7 +54,7 @@ public class UserService {
      */
     public void save(User user) {
         String id = idWorker.nextId() + "";
-        String password = new Md5Hash(user.getPassword(),user.getMobile(),3).toString();
+        String password = new Md5Hash(user.getPassword(), user.getMobile(), 3).toString();
         user.setPassword(password);
         user.setLevel("user");
         user.setEnableState(1);
@@ -188,7 +199,7 @@ public class UserService {
         return userDao.findById(id).get();
     }
 
-    public User findByMobile(String mobile){
+    public User findByMobile(String mobile) {
         return userDao.findByMobile(mobile);
     }
 
@@ -202,4 +213,56 @@ public class UserService {
     }
 
 
+    /**
+     * 批量保存用户数据
+     *
+     * @param users
+     * @param companyId
+     * @param companyName
+     */
+    @Transactional
+    public void saveAll(List<User> users, String companyId, String companyName) {
+        for (User u : users) {
+            u.setPassword(new Md5Hash("123456", u.getMobile(), 3).toString());
+            u.setCompanyId(companyId);
+            u.setCompanyName(companyName);
+            u.setEnableState(1);
+            u.setInServiceStatus(1);
+
+            u.setLevel("user");
+            String departmentId = u.getDepartmentId();
+            Department department = departmentFeignClient.queryByCode(departmentId, companyId);
+            if (department != null) {
+
+                u.setCompanyId(department.getId());
+                u.setDepartmentName(department.getName());
+            }
+            userDao.save(u);
+        }
+
+
+    }
+
+    /**
+     * 处理用户上传的头像信息
+     *
+     * @param id
+     * @param file
+     * @return
+     */
+    public String uploadImage(String id, MultipartFile file) throws IOException {
+
+        Optional<User> optional = userDao.findById(id);
+        if (optional.isPresent()) {
+            User user = optional.get();
+            String dataUrl = "";
+            dataUrl = "data:image/png;base64," + Base64.encode(file.getBytes());
+
+            user.setStaffPhoto(dataUrl);
+            userDao.save(user);
+            return dataUrl;
+        }
+
+        return "";
+    }
 }
